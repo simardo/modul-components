@@ -8,8 +8,10 @@ import WithRender from './viewer.html';
 export class Viewer extends Vue {
     public tag: string = '';
 
-    public text: string;
     public flag: boolean = false;
+    public text: string = '';
+    public ddModel: string = '';
+    public sessions: string[] = ['Automne 2017', 'Hiver 2018', 'Été 2018', 'Automne 2018', 'Hiver 2019', 'Été 2019'];
 
     public mounted() {
         this.buildTag();
@@ -18,6 +20,12 @@ export class Viewer extends Vue {
     public show($event): void {
         console.log($event);
     }
+
+    // public validate() {
+    //     this.$validator.validateAll().then((result) => {
+    //         console.log(`Validation Result: ${result}`);
+    //     });
+    // }
 
     @Watch('$route')
     private buildTag(): void {

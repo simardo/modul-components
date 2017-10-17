@@ -12,12 +12,25 @@
         <br /><hr /><br />
         <strong>**Temporaire pour essayer vee-validate**</strong><br /><br />
 
-        <label>Votre moyen de transport favori?</label><br />
-        <m-checkbox @input="show" v-model="flag" data-vv-name="avion" data-vv-value-path="propValue" v-validate="'required'" :has-error="errors.has('avion')">avion</m-checkbox><br />
-        <m-checkbox name="bateau">bateau</m-checkbox><br />
-        <!-- <input type="checkbox" name="avion" v-validate="'required'">Avion<br /> -->
+        Flag: {{ flag }}<br />
+        Text: {{ text }}<br />
+        DDModel: {{ ddModel }}<br />
 
-        Erreur: {{ errors.has('avion') }}<br />
+        <br />
+        <label>Votre moyen de transport favori?</label><br />
+        <m-checkbox @input="show" v-model="flag" data-vv-name="avion" data-vv-value-path="value" v-validate.initial="'required'">avion (obligatoire)</m-checkbox> <span v-if="errors.has('avion')" style="font-weight: bold; color: red;">En erreur</span><br />
+        <m-checkbox name="bateau">bateau</m-checkbox><br />
+        <input type="checkbox" name="auto" v-validate.initial="'required'">Auto (obligatoire) <span v-if="errors.has('auto')" style="font-weight: bold; color: red;">En erreur</span><br />
+
+        <br />
+        <label>Nom :</label><br />
+        <m-text-field v-model="text" data-vv-name="nom" data-vv-value-path="model" v-validate.initial="'required'"></m-text-field><span v-if="errors.has('nom')" style="font-weight: bold; color: red;">En erreur</span><br />
+
+        <br />
+        <label>Session : (Doit être 9 caractères et +)</label><span v-if="errors.has('sessions')" style="font-weight: bold; color: red;">En erreur</span><br />
+        <m-dropdown v-model="ddModel" data-vv-name="sessions" data-vv-value-path="selectedText" v-validate.initial="'required|min:9'"></m-text-field>
+            <m-dropdown-item v-for="session of sessions" :value="session"></m-dropdown-item>
+        </m-dropdown>
 
     </m-template>
     <div slot="footer">Footer</div>
