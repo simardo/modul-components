@@ -7,6 +7,18 @@
             <h1>{{$route.meta}}</h1>
         </template>
         <m-dynamic-template :template="tag"></m-dynamic-template>
+
+
+        <br /><hr /><br />
+        <strong>**Temporaire pour essayer vee-validate**</strong><br /><br />
+
+        <label>Votre moyen de transport favori?</label><br />
+        <m-checkbox @input="show" v-model="flag" data-vv-name="avion" data-vv-value-path="propValue" v-validate="'required'" :has-error="errors.has('avion')">avion</m-checkbox><br />
+        <m-checkbox name="bateau">bateau</m-checkbox><br />
+        <!-- <input type="checkbox" name="avion" v-validate="'required'">Avion<br /> -->
+
+        Erreur: {{ errors.has('avion') }}<br />
+
     </m-template>
     <div slot="footer">Footer</div>
 </m-flex-template>
