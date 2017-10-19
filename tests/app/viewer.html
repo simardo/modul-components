@@ -10,27 +10,141 @@
 
 
         <br /><hr /><br />
-        <strong>**Temporaire pour essayer vee-validate**</strong><br /><br />
 
-        Flag: {{ flag }}<br />
-        Text: {{ text }}<br />
-        DDModel: {{ ddModel }}<br />
+        <h2>**Temporaire pour essayer vee-validate**</h2><br /><br />
 
-        <br />
-        <label>Votre moyen de transport favori?</label><br />
-        <m-checkbox @input="show" v-model="flag" data-vv-name="avion" data-vv-value-path="value" v-validate.initial="'required'">avion (obligatoire)</m-checkbox> <span v-if="errors.has('avion')" style="font-weight: bold; color: red;">En erreur</span><br />
-        <m-checkbox name="bateau">bateau</m-checkbox><br />
-        <input type="checkbox" name="auto" v-validate.initial="'required'">Auto (obligatoire) <span v-if="errors.has('auto')" style="font-weight: bold; color: red;">En erreur</span><br />
+        <div style="border:1px dashed #999">
+            Flag: {{ flag }}<br />
+            Text: {{ text }}<br />
+            DDModel: {{ ddModel }}<br />
+        </div>
 
-        <br />
-        <label>Nom :</label><br />
-        <m-text-field v-model="text" data-vv-name="nom" data-vv-value-path="model" v-validate.initial="'required'"></m-text-field><span v-if="errors.has('nom')" style="font-weight: bold; color: red;">En erreur</span><br />
+        <h3>Checkbox</h3>
+        <div>
+            <label>Votre moyen de transport favori?</label><br />
+            <m-checkbox @input="show" v-model="flag" data-vv-name="avion" data-vv-value-path="value" v-validate.initial="'required'">avion (obligatoire)</m-checkbox><strong>(non fonctionnel)</strong> <span v-show="errors.has('avion')" style="font-weight: bold; color: red;">En erreur</span><br />
+            <input type="checkbox" v-validate.initial="'required'" name="auto"><label>Auto (Obligatoire)</label><span v-show="errors.has('auto')" style="color: red;">En erreur</span>
+        </div>
 
-        <br />
-        <label>Session : (Doit être 9 caractères et +)</label><span v-if="errors.has('sessions')" style="font-weight: bold; color: red;">En erreur</span><br />
-        <m-dropdown v-model="ddModel" data-vv-name="sessions" data-vv-value-path="selectedText" v-validate.initial="'required|min:9'"></m-text-field>
-            <m-dropdown-item v-for="session of sessions" :value="session"></m-dropdown-item>
-        </m-dropdown>
+        <h3>Radio</h3>
+        <p>On peut mettre le validate sur un seul élément</p>
+        <div>
+            <label>Chien ou chat?</label><br />
+            <m-radio data-vv-name="animals" data-vv-value-path="model" v-validate.initial="'required'">Chat</m-radio><br />
+            <m-radio data-vv-name="animals" data-vv-value-path="model">Chien</m-radio><br />
+            <span v-show="errors.has('animals')" style="color: red;">En erreur</span><br />
+
+            <label>Chien ou chat?</label><br />
+            <input type="radio" v-validate.initial="'required'" name="animaux"><label>Chien</label><br />
+            <input type="radio" name="animaux"><label>Chat</label><br />
+            <span v-show="errors.has('animaux')" style="color: red;">En erreur</span>
+        </div>
+
+        <h3>Text</h3>
+        <p>La validation sur m-text-field se fait sur le blur</p>
+        <div>
+            <label>Nom (Obligatoire)</label><br />
+            <input type="text" v-validate.initial="'required'" name="nom">
+            <span v-show="errors.has('nom')" style="color: red;">En erreur</span>
+        </div>
+        <div>
+            <label>Nom complet</label><br />
+            <m-text-field type="text" v-model="text" data-vv-name="complet" data-vv-value-path="model" v-validate.initial="'required'"></m-text-field>
+            <span v-show="errors.has('complet')" style="color: red;">En erreur</span>
+        </div>
+        <div>
+            <label>Mot de passe</label><br />
+            <m-text-field type="password" data-vv-name="mot-de-passe" data-vv-value-path="model" v-validate.initial="'required'"></m-text-field>
+            <span v-show="errors.has('mot-de-passe')" style="color: red;">En erreur</span>
+        </div>
+        <div>
+            <label>Age</label><br />
+            <m-text-field type="text" data-vv-name="age1" data-vv-value-path="model" v-validate.initial="'required|numeric'"></m-text-field>
+            <span v-show="errors.has('age1')" style="color: red;">En erreur</span>
+        </div>
+        <div>
+            <label>Courriel</label><br />
+            <m-text-field type="email" data-vv-name="email1" data-vv-value-path="model" v-validate.initial="'required|email'"></m-text-field>
+            <span v-show="errors.has('email1')" style="color: red;">En erreur</span>
+        </div>
+
+        <h3>Dropdown</h3>
+        <div>
+            <label>Session (Doit être 9 caractères et +)</label>
+            <span v-if="errors.has('sessions')" style="color: red;">En erreur</span><br />
+            <m-dropdown v-model="ddModel" data-vv-name="sessions" v-validate.initial="'required|min:9'">
+                <m-dropdown-item v-for="session of sessions" :value="session"></m-dropdown-item>
+            </m-dropdown>
+        </div>
+
+        <h3>Scope + validateAll</h3>
+        <ul>
+            <li>Le scope a des problème avec les checkbox (natif et m-checkbox) sur la validation du required lorsque 2 checkbox avec le même nom, dans 2 scopes différents. (Peut-être lié à cet issue https://github.com/baianat/vee-validate/issues/593)</li>
+            <li>Les input de type text fonctionne bien avec les scopes, de même que le m-text-field</li>
+            <li>On doit mettre/remettre data-vv-scope sur les custom component pour que ça fonctionne.</li>
+        </ul>
+        <form @submit.prevent="validateForm('form-1')" data-vv-scope="form-1">
+            <p><strong>scope form-1</strong></p>
+            <div>
+                <label>Courriel (Obligatoire)</label><br />
+                <input name="email" v-validate="'required'" type="text">
+                <span v-show="errors.has('form-1.email')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <div>
+                <label>Mot de passe (Obligatoire)</label><br />
+                <m-text-field type="password" data-vv-scope="form-1" data-vv-name="password" v-validate="'required'" data-vv-value-path="model"></m-text-field>
+                <span v-show="errors.has('form-1.password')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <div>
+                <label>Age (Obligatoire + Numerique)</label><br />
+                <m-text-field data-vv-scope="form-1" data-vv-name="age" v-validate="'required|numeric'" data-vv-value-path="model"></m-text-field>
+                <span v-show="errors.has('form-1.age')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <div>
+                <input type="checkbox" v-validate="'required'" name="condition">
+                <label>J'accepte les conditions (Obligatoire)</label><br />
+                <span v-show="errors.has('form-1.condition')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <button type="submit" name="button">Sign up</button>
+            <button type="button" name="button" @click="errors.clear('form-1')">Clear</button>
+        </form>
+        <br /><br />
+        <form @submit.prevent="validateForm('form-1')" data-vv-scope="form-2">
+            <p><strong>scope form-2</strong></p>
+            <div>
+                <label>Courriel (Obligatoire)</label><br />
+                <input name="email" v-validate="'required'" type="text">
+                <span v-show="errors.has('form-2.email')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <div>
+                <label>Mot de passe (Obligatoire)</label><br />
+                <m-text-field type="password" data-vv-scope="form-2" data-vv-name="password" v-validate="'required'" data-vv-value-path="model"></m-text-field>
+                <span v-show="errors.has('form-2.password')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <div>
+                <label>Age (Obligatoire + Numerique)</label><br />
+                <m-text-field data-vv-scope="form-2" data-vv-name="age" v-validate="'required|numeric'" data-vv-value-path="model" v-model="text"></m-text-field>
+                <span v-show="errors.has('form-2.age')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <div>
+                <input type="checkbox" v-validate="'required'" name="condition">
+                <label>J'accepte les conditions (Obligatoire)</label><br />
+                <span v-show="errors.has('form-2.condition')" style="color: red;">En erreur</span>
+            </div>
+            <br />
+            <button type="submit" name="button">Sign up</button>
+            <button type="button" name="button" @click="errors.clear('form-2')">Clear</button>
+        </form>
+
+
+
 
     </m-template>
     <div slot="footer">Footer</div>

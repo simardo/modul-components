@@ -10,7 +10,10 @@ export class Viewer extends Vue {
 
     public flag: boolean = false;
     public text: string = '';
+    public text2: string = '';
+    public textScope: string = '';
     public ddModel: string = '';
+    public ddModelScope: string = '';
     public sessions: string[] = ['Automne 2017', 'Hiver 2018', 'Été 2018', 'Automne 2018', 'Hiver 2019', 'Été 2019'];
 
     public mounted() {
@@ -26,6 +29,15 @@ export class Viewer extends Vue {
     //         console.log(`Validation Result: ${result}`);
     //     });
     // }
+    public validateForm(scope: string) {
+        (this as any).$validator.validateAll(scope).then((result) => {
+            if (result) {
+                alert('Form Submitted!');
+            } else {
+                alert('Error');
+            }
+        });
+    }
 
     @Watch('$route')
     private buildTag(): void {
