@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Watch } from 'vue-property-decorator';
 import WithRender from './viewer.html';
+import { Validator } from 'vee-validate';
 
 @WithRender
 @Component
@@ -18,6 +19,14 @@ export class Viewer extends Vue {
 
     public mounted() {
         this.buildTag();
+
+        Validator.extend('truthy', {
+            getMessage: field => 'The ' + field + ' value is not truthy.',
+            validate: value => false
+        });
+        // let instance = new Validator( {nom: 'truthy'}, {} );
+        this.$validator.attach('nom', 'required|truthy');
+
     }
 
     public show($event): void {

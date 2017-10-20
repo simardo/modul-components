@@ -44,8 +44,9 @@
         <p>La validation sur m-text-field se fait sur le blur</p>
         <div>
             <label>Nom (Obligatoire)</label><br />
-            <input type="text" v-validate.initial="'required'" name="nom">
+            <input type="text" name="nom">
             <span v-show="errors.has('nom')" style="color: red;">En erreur</span>
+            {{ errors.collect('nom') }}<br />
         </div>
         <div>
             <label>Nom complet</label><br />
