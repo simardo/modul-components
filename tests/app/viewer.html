@@ -44,7 +44,7 @@
         <p>La validation sur m-text-field se fait sur le blur</p>
         <div>
             <label>Nom (Obligatoire)</label><br />
-            <input type="text" name="nom">
+            <input type="text" v-validate.initial="'required|min:3|alpha'" name="nom">
             <span v-show="errors.has('nom')" style="color: red;">En erreur</span>
             {{ errors.collect('nom') }}<br />
         </div>
@@ -143,6 +143,22 @@
             <button type="submit" name="button">Sign up</button>
             <button type="button" name="button" @click="errors.clear('form-2')">Clear</button>
         </form>
+
+        <h3>Custom validation</h3>
+        <div>
+            <label>Nom (Obligatoire)</label><br />
+            <input type="text" name="champs" v-model="champs1">
+            <input type="text" name="champs" v-model="champs2">
+            <span v-show="errors.has('champs')" style="color: red;">{{ errors.first('champs') }}</span>
+            <button @click="validateField">Valider</button>
+        </div>
+
+        <h3>Validation sur une propriété</h3>
+        <div>
+            <button @click="validateInternal">Valider internal</button>
+            <button @click="editInternal">Add internal</button><br />
+            <span v-show="errors.has('internal')" style="color: red;">{{ errors.first('internal') }}</span>
+        </div>
 
 
 

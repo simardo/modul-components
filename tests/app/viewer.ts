@@ -17,15 +17,20 @@ export class Viewer extends Vue {
     public ddModelScope: string = '';
     public sessions: string[] = ['Automne 2017', 'Hiver 2018', 'Été 2018', 'Automne 2018', 'Hiver 2019', 'Été 2019'];
 
+    public champs1: string = '';
+    public champs2: string = '';
+    public internal: string = '';
+
     public mounted() {
         this.buildTag();
 
         Validator.extend('truthy', {
             getMessage: field => 'The ' + field + ' value is not truthy.',
-            validate: value => false
+            validate: value => true
         });
         // let instance = new Validator( {nom: 'truthy'}, {} );
-        this.$validator.attach('nom', 'required|truthy');
+        this.$validator.attach('champs', 'required|truthy');
+        this.$validator.attach('internal', 'required|truthy');
 
     }
 
@@ -46,6 +51,22 @@ export class Viewer extends Vue {
                 alert('Error');
             }
         });
+    }
+
+    public validateField(field: string) {
+        this.$validator.validate('champs', this.champs1).then((result) => {
+            console.log(result);
+        });
+    }
+
+    public validateInternal() {
+        this.$validator.validate('internal', this.internal).then((result) => {
+            console.log('internal', this.internal, result);
+        });
+    }
+
+    public editInternal() {
+        this.internal = 'abc';
     }
 
     @Watch('$route')
