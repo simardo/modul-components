@@ -17,20 +17,34 @@ export class Viewer extends Vue {
     public ddModelScope: string = '';
     public sessions: string[] = ['Automne 2017', 'Hiver 2018', 'Été 2018', 'Automne 2018', 'Hiver 2019', 'Été 2019'];
 
-    public champs1: string = '';
-    public champs2: string = '';
-    public internal: string = '';
+    public itemA1: boolean = false;
+    public itemB1: string = '';
+    public itemB2: string = '';
+    public itemC1: string = '';
+    public itemC2: string = '';
 
     public mounted() {
         this.buildTag();
 
+        Validator.extend('custom', {
+            getMessage: field => 'The ' + field + ' value is not "abc".',
+            validate: (value) => {
+                console.log('Validator custom: ', value);
+                return value === 'abc';
+            }
+        });
+
         Validator.extend('truthy', {
             getMessage: field => 'The ' + field + ' value is not truthy.',
-            validate: value => true
+            validate: value => {
+                console.log('Validator: ', value);
+                return value == true;
+            }
         });
-        // let instance = new Validator( {nom: 'truthy'}, {} );
-        this.$validator.attach('champs', 'required|truthy');
-        this.$validator.attach('internal', 'required|truthy');
+
+        // this.$validator.attach('champs', 'required|truthy');
+        this.$validator.attach('itemA', 'truthy');
+        this.$validator.attach('itemB', 'truthy');
 
     }
 
@@ -38,11 +52,6 @@ export class Viewer extends Vue {
         console.log($event);
     }
 
-    // public validate() {
-    //     this.$validator.validateAll().then((result) => {
-    //         console.log(`Validation Result: ${result}`);
-    //     });
-    // }
     public validateForm(scope: string) {
         (this as any).$validator.validateAll(scope).then((result) => {
             if (result) {
@@ -53,20 +62,38 @@ export class Viewer extends Vue {
         });
     }
 
-    public validateField(field: string) {
-        this.$validator.validate('champs', this.champs1).then((result) => {
-            console.log(result);
+    public validateAll() {
+        (this as any).$validator.validateAll().then((result) => {
+            if (result) {
+                alert('Form Submitted!');
+            } else {
+                alert('Error');
+            }
         });
     }
 
-    public validateInternal() {
-        this.$validator.validate('internal', this.internal).then((result) => {
-            console.log('internal', this.internal, result);
+    public validateItemA() {
+        this.$validator.validate('itemA', this.itemA1).then((result) => {
+            console.log('itemA', this.itemA1, result);
         });
     }
 
-    public editInternal() {
-        this.internal = 'abc';
+    public validateItemB() {
+        this.$validator.validate('itemB', this.validatedComputed).then((result) => {
+            console.log('itemB', this.validatedComputed, result);
+        });
+    }
+
+    public get validatedComputed(): boolean {
+        if (this.itemB1 === 'a' && this.itemB2 === 'b') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public setItemC2(): void {
+        this.itemC2 = this.itemC1;
     }
 
     @Watch('$route')

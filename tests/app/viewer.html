@@ -145,23 +145,54 @@
         </form>
 
         <h3>Custom validation</h3>
-        <div>
+        <ul>
+            <li>'initial' sur les règles customs ne fonctionne pas.</li>
+            <li>Si on met un scope sur le form, 'initial' ne fonctionne pas, même pour les règles fournie par vee-validate. Il faut mettre le scope directement sur les input pour qu'il fonctionne (sur les règles customs, il ne fonctinne jamais)</li>
+            <li>Tant qu'il n'y a pas de valeur dans un champs et que sa première règle est custom, le check du validateAll ne valide pas ce champs. Donc, pas d'erreurs et la validation passe.</li>
+            <li>https://github.com/baianat/vee-validate/issues/320</li>
+        </ul>
+        <form data-vv-scope="custom-scope" @submit.prevent="validateForm('custom-scope')">
             <label>Nom (Obligatoire)</label><br />
-            <input type="text" name="champs" v-model="champs1">
-            <input type="text" name="champs" v-model="champs2">
-            <span v-show="errors.has('champs')" style="color: red;">{{ errors.first('champs') }}</span>
-            <button @click="validateField">Valider</button>
-        </div>
+            itemZ1:<input data-vv-scope="custom-scope" type="text" name="itemZ1" v-validate.initial="'custom'">(doit être 'abc')
+            <span v-show="errors.has('custom-scope.itemZ1')" style="color: red;">{{ errors.first('custom-scope.itemZ1') }}</span><br />
+            itemZ2:<input data-vv-scope="custom-scope" type="text" name="itemZ2" v-validate.initial="'required'">
+            <span v-show="errors.has('custom-scope.itemZ2')" style="color: red;">{{ errors.first('custom-scope.itemZ2') }}</span><br />
+            <button type="submit">validateAll sur les champs de cette section</button><br />
+        </form>
 
         <h3>Validation sur une propriété</h3>
         <div>
-            <button @click="validateInternal">Valider internal</button>
-            <button @click="editInternal">Add internal</button><br />
-            <span v-show="errors.has('internal')" style="color: red;">{{ errors.first('internal') }}</span>
+            propriété itemA1:  {{ itemA1 }}<br />
+            <button @click="validateItemA">Valider propriété</button>
+            <button @click="itemA1 = !itemA1">Set itemA1 à  {{ !itemA1 }}</button><br />
+            <span v-show="errors.has('itemA')" style="color: red;">{{ errors.first('itemA') }}</span>
         </div>
 
+        <h3>Validation sur une propriété computed</h3>
+        <div>
+            propriété validatedComputed:  {{ validatedComputed }}<br />
+            <!-- inputB1:<input @keyup="validateItemB" type="text" name="itemB1" id="" v-model="itemB1">(doit être 'a')<br />
+            inputB2:<input @keyup="validateItemB" type="text" name="itemB2" id="" v-model="itemB2">(doit être 'b')<br /> -->
+            inputB1:<input type="text" name="inputB1" id="" v-model="itemB1">(doit être 'a')<br />
+            inputB2:<input type="text" name="inputB2" id="" v-model="itemB2">(doit être 'b')<br />
+            <button @click="validateItemB">Valider internal</button>
+            <span v-show="errors.has('itemB')" style="color: red;">{{ errors.first('itemB') }}</span>
+        </div>
 
+        <h3>Validation sur input hidden</h3>
+        <p>La validation du champs hidden se fait lors de l'appel du validateAll. Elle n'est pas faite automatiquement lors de la saisie dans l'input visible.</p>
+        <form data-vv-scope="hidden-scope" @submit.prevent="validateForm('hidden-scope')">
+            inputC1:<input data-vv-scope="hidden-scope" type="text" name="inputC1" v-model="itemC1" @keyup="setItemC2" v-validate.initial="'required'"><br />
+            inputC2: (hidden)<input data-vv-scope="hidden-scope" type="hidden" name="inputC2" :value="itemC2" v-validate.initial="'required'"><br />
+            <span v-show="errors.has('hidden-scope.inputC1')" style="color: red;">{{ errors.first('hidden-scope.inputC1') }}</span><br />
+            <span v-show="errors.has('hidden-scope.inputC2')" style="color: red;">{{ errors.first('hidden-scope.inputC2') }}</span><br />
+            <button type="submit">Valider internal</button><br />
+        </form>
 
+        <br />
+        <div style="border:1px dashed #999">
+            {{ errors.collect() }}
+        </div>
 
     </m-template>
     <div slot="footer">Footer</div>
