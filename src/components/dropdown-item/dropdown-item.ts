@@ -50,6 +50,8 @@ export class MDropdownItem extends ModulVue {
         this.group = this.getParent<BaseDropdownGroup>(p => p instanceof BaseDropdownGroup);
     }
 
+    //sadsads
+
     public get filtered(): boolean {
         if (this.propLabel) {
             return !this.root.matchFilter(normalizeString(this.propLabel));
