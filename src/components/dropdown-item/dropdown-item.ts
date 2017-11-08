@@ -34,7 +34,6 @@ export class MDropdownItem extends ModulVue {
     public value: any;
     @Prop({ default: false })
     public disabled: boolean;
-    //fdsfdsf
 
     public root: MDropdownInterface; // Dropdown component
     public group: BaseDropdown | undefined; // Dropdown-group parent if there is one
