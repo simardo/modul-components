@@ -1,4 +1,18 @@
 language: node_js
+
 node_js:
   - "8"
+
+branches:
+  only:
+  - master
+  - develop
+
 script: npm run buildWebpack
+
+cache:
+  directories:
+    - node_modules
+
+git:
+  depth: 1
