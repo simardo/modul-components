@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/simardo/modul-components.svg?branch=develop)](https://travis-ci.org/simardo/modul-components)
+[![npm version](https://badge.fury.io/js/%40ulaval%2Fmodul-components.svg)](https://badge.fury.io/js/%40ulaval%2Fmodul-components)
 
 # modul-components
 A set of VueJS components for Modul web applications (alpha release).
