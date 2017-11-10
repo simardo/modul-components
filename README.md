@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/simardo/modul-components.svg?branch=develop)](https://travis-ci.org/simardo/modul-components)
+
 # modul-components
 A set of VueJS components for Modul web applications (alpha release).
 
