@@ -8,7 +8,7 @@ branches:
   - master
   - develop
 
-script: npm run buildWebpack
+script: npm run buildWebpack && npm run unit -- --single-run
 
 cache:
   directories:
