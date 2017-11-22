@@ -32,7 +32,7 @@ export class MDropdownItem extends ModulVue {
     public label: string;
     @Prop()
     public value: any;
-    @Prop({ default: false })
+    @Prop()
     public disabled: boolean;
 
     public root: MDropdownInterface; // Dropdown component
@@ -59,7 +59,7 @@ export class MDropdownItem extends ModulVue {
     }
 
     public get inactive(): boolean {
-        return this.value === undefined;
+        return this.value == undefined;
     }
 
     // Value and label rules
@@ -89,7 +89,7 @@ export class MDropdownItem extends ModulVue {
         return (this.root as MDropdownInterface).focused == this.value;
     }
 
-    private onMousedown(): void {
+    private onClick(): void {
         if (!this.inactive && !this.root.inactive && !this.disabled) {
             this.root.model = this.value;
         }

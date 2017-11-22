@@ -6,24 +6,22 @@
         "label": {
             "type": "string"
         },
-        "state": {
-            "type": "string",
-            "values": [
-                "default",
-                "disabled",
-                "error",
-                "valid"
-            ],
-            "default": 0
+        "focus": {
+            "type": "boolean",
+            "default": false
         },
-        "editable": {
+        "empty": {
             "type": "boolean",
             "default": true
         },
-        "errorMessage": {
+        "textarea": {
+            "type": "boolean",
+            "default": false
+        },
+        "width": {
             "type": "string"
         },
-        "helperMessage": {
+        "iconName": {
             "type": "string"
         }
     },

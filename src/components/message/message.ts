@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import { PluginObject } from 'vue';
 import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
+import { Prop, Watch } from 'vue-property-decorator';
 import WithRender from './message.html?style=./message.scss';
 import { MESSAGE_NAME } from '../component-names';
 import IconPlugin from '../icon/icon';
-import ButtonPlugin from '../button/button';
+import IconButtonPlugin from '../icon-button/icon-button';
 import I18nPlugin from '../i18n/i18n';
 
 export enum MMessageState {
@@ -15,7 +15,7 @@ export enum MMessageState {
     Error = 'error'
 }
 
-export enum MMessageMode {
+export enum MMessageSkin {
     Regular = 'regular',
     Light = 'light'
 }
@@ -23,18 +23,40 @@ export enum MMessageMode {
 @WithRender
 @Component
 export class MMessage extends Vue {
-    @Prop({ default: MMessageState.Success })
+    @Prop({
+        default: MMessageState.Success,
+        validator: value =>
+            value == MMessageState.Success ||
+            value == MMessageState.Information ||
+            value == MMessageState.Warning ||
+            value == MMessageState.Error
+    })
     public state: MMessageState;
-    @Prop({ default: MMessageMode.Regular })
-    public mode: MMessageMode;
+
+    @Prop({
+        default: MMessageSkin.Regular,
+        validator: value =>
+            value == MMessageSkin.Regular ||
+            value == MMessageSkin.Light
+    })
+    public skin: MMessageSkin;
+
     @Prop({ default: true })
     public icon: boolean;
+
     @Prop({ default: true })
     public closeButton: boolean;
+
     @Prop()
     public visible: boolean;
 
     private internalPropVisible: boolean = true;
+
+    @Watch('visible')
+    private onVisibleChange(value: boolean): void {
+        // reset to true if prop reset to undefined
+        this.internalPropVisible = value == undefined ? true : value;
+    }
 
     private get propVisible(): boolean {
         return this.visible != undefined ? this.visible : this.internalPropVisible;
@@ -42,7 +64,7 @@ export class MMessage extends Vue {
 
     private set propVisible(visible: boolean) {
         this.internalPropVisible = visible;
-        this.$emit('input', visible);
+        this.$emit('update:visible', visible);
     }
 
     private onClose(event): void {
@@ -72,15 +94,16 @@ export class MMessage extends Vue {
     }
 
     private get showCloseButton(): boolean {
-        return this.mode == MMessageMode.Regular && this.closeButton;
+        return this.skin == MMessageSkin.Regular && this.closeButton;
     }
 
 }
 
 const MessagePlugin: PluginObject<any> = {
     install(v, options) {
+        console.debug(MESSAGE_NAME, 'plugin.install');
         v.use(IconPlugin);
-        v.use(ButtonPlugin);
+        v.use(IconButtonPlugin);
         v.use(I18nPlugin);
         v.component(MESSAGE_NAME, MMessage);
     }

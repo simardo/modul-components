@@ -53,19 +53,11 @@ $m-dropdown--margin: $m-padding--xs !default;
         text-align: left;
         background: $m-color--white;
 
-        @include m-scrollbar-ie();
-
-        &::-webkit-scrollbar {
-            @include m-scrollbar();
-
-            &-track-piece {
-                @include m-scrollbar-track-piece();
-            }
-
-            &-thumb {
-                @include m-scrollbar-thumb();
-            }
+        @media (min-width: $m-mq--min--s) {
+            max-height: 208px;
         }
+
+        @include m-scrollbar();
 
         &.m--is-hidden {
             position: absolute;
@@ -90,9 +82,5 @@ $m-dropdown--margin: $m-padding--xs !default;
 
     .m-input-style {
         width: 100%;
-    }
-
-    .m-validation-message {
-        cursor: pointer;
     }
 }

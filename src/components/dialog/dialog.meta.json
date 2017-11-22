@@ -1,0 +1,42 @@
+{
+    "tag": "m-dialog",
+    "name": "m-dialog-meta:name",
+    "production": false,
+    "attributes": {
+        "size": {
+            "type": "string",
+            "value": [
+                "full-size",
+                "large",
+                "default",
+                "small"
+            ],
+            "default": 2
+        },
+        "closeOnBackdrop": {
+            "type": "boolean",
+            "default": true
+        },
+        "title": {
+            "type": "string"
+        },
+        "padding": {
+            "type": "boolean",
+            "default": true
+        },
+        "paddingHeader": {
+            "type": "boolean",
+            "default": true
+        },
+        "paddingBody": {
+            "type": "boolean",
+            "default": true
+        },
+        "paddingFooter": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "overview": "dialog.overview",
+    "preview": "dialog.preview"
+}

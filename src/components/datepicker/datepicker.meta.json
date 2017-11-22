@@ -4,9 +4,19 @@
     "production": true,
     "attributes": {
         "value": {
-            "type": "moment.Moment",
+            "type": "string",
             "values": "see Moment.js constructor arguments",
             "default": "now"
+        },
+        "label": {
+            "type": "string"
+        },
+        "iconName": {
+            "type": "string"
+        },
+        "required": {
+            "type": "boolean",
+            "default": false
         },
         "format": {
             "type": "string",
@@ -14,23 +24,14 @@
             "default": "L"
         },
         "min": {
-            "type": "moment.Moment",
+            "type": "string",
             "values": "see Moment.js constructor arguments",
             "default": "now minus 10 years"
         },
         "max": {
-            "type": "moment.Moment",
+            "type": "string",
             "values": "see Moment.js constructor arguments",
             "default": "now plus 10 years"
-        },
-        "options": {
-            "type": "any",
-            "values": "see Moment.js constructor arguments",
-            "default": "bottom-start"
-        },
-        "disabled": {
-            "type": "boolean",
-            "default": false
         }
     },
     "overview": "datepicker.overview",

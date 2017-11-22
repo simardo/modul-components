@@ -1,0 +1,21 @@
+{
+    "tag": "m-modal",
+    "name": "m-modal-meta:name",
+    "production": true,
+    "attributes": {
+        "title": {
+            "type": "string"
+        },
+        "message": {
+            "type": "string"
+        },
+        "okLabel": {
+            "type": "string | undefined"
+        },
+        "cancelLabel": {
+            "type": "string | undefined"
+        }
+    },
+    "overview": "modal.overview",
+    "preview": "modal.preview"
+}
