@@ -7,10 +7,12 @@ import ElementQueries from 'css-element-queries/src/ElementQueries';
 
 export enum MPanelSkin {
     Light = 'light',
-    Dark = 'dark'
+    Dark = 'dark',
+    Darker = 'darker'
 }
 
 const HEADER_RIGHT_CONTENT: string = 'header-right-content';
+const MENU: string = 'menu';
 
 @WithRender
 @Component
@@ -23,17 +25,23 @@ export class MPanel extends Vue {
     })
     public skin: MPanelSkin;
 
-    @Prop({ default: true })
-    public highlightingBorder: boolean;
+    @Prop()
+    public highlighted: boolean;
 
     @Prop({ default: true })
     public shadow: boolean;
 
-    @Prop({ default: true })
+    @Prop()
     public border: boolean;
+
+    @Prop()
+    public borderLarge: boolean;
 
     @Prop({ default: true })
     public padding: boolean;
+
+    @Prop()
+    public paddingLarge: boolean;
 
     @Prop({ default: true })
     public paddingHeader: boolean;
@@ -60,6 +68,10 @@ export class MPanel extends Vue {
         return this.skin == MPanelSkin.Dark;
     }
 
+    private get darkerSkin(): boolean {
+        return this.skin == MPanelSkin.Darker;
+    }
+
     private get hasHeader(): boolean {
         if (this.$slots.header || this.$slots[HEADER_RIGHT_CONTENT]) {
             return true;
@@ -69,6 +81,10 @@ export class MPanel extends Vue {
 
     private get hasHeaderRightContentSlot(): boolean {
         return !!this.$slots[HEADER_RIGHT_CONTENT];
+    }
+
+    private get hasHeaderMenuSlot(): boolean {
+        return !!this.$slots[MENU];
     }
 
     private get hasHeaderSlot(): boolean {
