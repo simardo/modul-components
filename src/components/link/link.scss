@@ -3,123 +3,65 @@
 .m-link {
     transition: color $m-transition-duration ease;
     position: relative;
-    display: inline-flex;
-    align-items: center;
     font-weight: $m-font-weight--bold;
     color: $m-color--interactive;
-
-    @include m-is-ie() {
-        display: inline-block;
-    }
+    text-decoration: none;
 
     &.m--has-right-icon {
         flex-direction: row-reverse;
 
-        .m-link {
-            &__icon {
-                margin-left: $m-margin--xs;
-            }
+        .m-link__icon {
+            margin-left: $m-margin--xs;
         }
     }
 
-    &:not(.m--has-right-icon) {
-        .m-link {
-            &__icon {
-                margin-right: $m-margin--xs;
-            }
-        }
-    }
-
-    &:not(.m--is-multi-line) {
-        text-decoration: none;
-
-        &:not(.m--is-disabled) {
-            &:not(.m--no-underline) {
-                .m-link__text {
-                    &::after {
-                        transition: width $m-transition-duration ease, opacity $m-transition-duration ease;
-                        position: absolute;
-                        right: 0;
-                        bottom: 1px; //Magic number
-                        left: 0;
-                        content: '';
-                        width: 8%;
-                        height: 1px;
-                        background: $m-color--interactive;
-                        opacity: 0;
-                    }
-                }
-            }
-
-            &:not(:active) {
-                &:focus,
-                &:hover {
-                    .m-link__text {
-                        &::after {
-                            width: 100%;
-                            background: $m-color--interactive-light;
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
-
-            &:active {
-                .m-link__text {
-                    &::after {
-                        right: 0;
-                        left: auto;
-                        width: 8%;
-                        background: $m-color--interactive-dark;
-                        opacity: 0;
-                    }
-                }
-            }
-        }
-    }
-
-    &.m--is-multi-line {
-        @media (min-width: #{$m-mq--min--s}) {
-            text-decoration: none;
-        }
-
-        &:not(.m--no-underline) {
-            &:focus,
-            &:hover {
-                text-decoration: underline;
-            }
+    &.m--has-left-icon {
+        .m-link__icon {
+            margin-right: $m-margin--xs;
         }
     }
 
     &:not(.m--is-disabled) {
         &:not(.m--no-underline) {
             .m-link__text {
-                &::after {
-                    transition: width $m-transition-duration ease, opacity $m-transition-duration ease;
-                    position: absolute;
-                    right: 0;
-                    bottom: 1px; //Magic number
-                    left: 0;
-                    content: '';
-                    width: 8%;
-                    height: 1px;
-                    background: $m-color--interactive;
-                    opacity: 0;
+                transition: box-shadow $m-transition-duration--s ease;
+                box-shadow: 0 0 transparent;
+            }
+
+            &:not(.m--is-unvisited):visited {
+                color: $m-color--interactive-darker;
+            }
+
+            &:hover,
+            &:focus {
+                .m-link__text {
+                    box-shadow: 0 1px $m-color--interactive-light;
+                }
+            }
+
+            &:active {
+                .m-link__text {
+                    box-shadow: 0 1px $m-color--interactive-dark;
                 }
             }
         }
 
-        &:not(.m--is-unvisited) {
-            &:visited {
-                color: $m-color--interactive-darker;
+        &:not(.m--is-unvisited):visited {
+            color: $m-color--interactive-darker;
+
+            &:hover,
+            &:focus {
+                color: $m-color--interactive-light;
+            }
+
+            &:active {
+                color: $m-color--interactive-dark;
             }
         }
 
-        &:not(:active) {
-            &:focus,
-            &:hover {
-                color: $m-color--interactive-light;
-            }
+        &:hover,
+        &:focus {
+            color: $m-color--interactive-light;
         }
 
         &:active {
@@ -138,7 +80,6 @@
 
     &__text {
         position: relative;
-        flex: 1 1 auto;
         vertical-align: middle;
     }
 

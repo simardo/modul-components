@@ -44,6 +44,8 @@ export class MTextfield extends ModulVue {
     public type: MTextfieldType;
     @Prop({ default: true })
     public passwordIcon: boolean;
+    @Prop()
+    public asterisk: boolean;
 
     private passwordAsText: boolean = false;
 
