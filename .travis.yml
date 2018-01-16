@@ -7,8 +7,9 @@ branches:
   only:
   - master
   - develop
+  - feature-branch-test
 
-script: npm run buildWebpack && npm run unit -- --single-run
+script: npm run buildWebpack && npm run unitMeta && npm run unit -- --single-run
 
 cache:
   directories:
